@@ -39,5 +39,7 @@ public:
 
     ~NeuralNetwork() = default;
 
-    vector<float> forward(vector<float> train_image);
+    vector<float> forward(const vector<float> &train_image);
+
+    void backward(const vector<float> &predict_label, const vector<float> &true_label);
 };
