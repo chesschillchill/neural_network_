@@ -1,10 +1,58 @@
-#include <iostream>
-
 #include "neural_network.h"
-int main() {
-	NeuralNetwork nn(3, 5, 4, 2); // Example initialization with 3 inputs, 5 nodes in first hidden layer, 4 in second, and 2 outputs
+#include "read_mnist.h"
 
-	std::cout << "Neural Network initialized with 3 inputs, 5 hidden nodes in layer 1, 4 hidden nodes in layer 2, and 2 outputs." << std::endl;
-	
-	return 0;
+#define TRAIN_IMAGE_PATH "fashion/train-images-idx3-ubyte"
+#define TRAIN_LABEL_PATH "fashion/train-labels-idx1-ubyte"
+#define TEST_IMAGE_PATH "fashion/t10k-images-idx3-ubyte"
+#define TEST_LABEL_PATH "fashion/t10k-labels-idx1-ubyte"
+
+/*
+Neural Network Configuration:
+- Input Layer: 784 nodes (28x28 pixels)
+- Hidden Layer 1: 128 nodes
+- Hidden Layer 2: 64 nodes
+- Output Layer: 10 nodes (for 10 classes)
+*/
+#define IMAGE_SIZE 784 // 28x28 pixels
+#define LABEL_SIZE 10  // 10 classes for Fashion MNIST
+#define HIDDEN_LAYER1_SIZE 128
+#define HIDDEN_LAYER2_SIZE 64
+
+#define TRAIN_SIZE 60000 // Number of training images
+#define TEST_SIZE 10000  // Number of test images
+
+#define LEARNING_RATE 0.05f
+int main()
+{
+    string train_images_path = TRAIN_IMAGE_PATH;
+    string train_labels_path = TRAIN_LABEL_PATH;
+    string test_images_path = TEST_IMAGE_PATH;
+    string test_labels_path = TEST_LABEL_PATH;
+
+    vector<vector<float>> train_images;
+    vector<unsigned char> train_labels;
+    vector<vector<float>> test_images;
+    vector<unsigned char> test_labels;
+
+    ReadDataset::read_mnist_images(train_images_path, train_images);
+    ReadDataset::read_mnist_labels(train_labels_path, train_labels);
+    ReadDataset::read_mnist_images(test_images_path, test_images);
+    ReadDataset::read_mnist_labels(test_labels_path, test_labels);
+
+    vector<float> result;
+    NeuralNetwork nn(IMAGE_SIZE, HIDDEN_LAYER1_SIZE,  HIDDEN_LAYER2_SIZE, LABEL_SIZE);
+
+    //TEST FUNCTION 
+    result = nn.forward(train_images[0]);
+
+    // For demonstration, we will just print the first result
+    cout << "First forward result: ";
+    for (const auto &value : result)
+    {
+        cout << value << " ";
+    }
+    cout << endl;
+
+	cout << nn.calculateCost(result, train_labels[0]) << endl;
+    return 0;
 }

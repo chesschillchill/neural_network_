@@ -38,5 +38,11 @@
     <ClInclude Include="node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="activation_function.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="read_mnist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
