@@ -48,13 +48,9 @@ public:
         }
     }
 
-    float getWeight(int index) const
+    vector<float> getWeight() const
     {
-        if (index >= 0 && index < weights.size())
-        {
-            return weights[index];
-        }
-        return 0.0f;
+		return weights;
     }
 
     void setBias(float value)

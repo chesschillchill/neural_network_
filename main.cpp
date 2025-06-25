@@ -22,6 +22,7 @@ Neural Network Configuration:
 #define TEST_SIZE 10000  // Number of test images
 
 #define LEARNING_RATE 0.05f
+#define NUM_EPOCH 5
 int main()
 {
     string train_images_path = TRAIN_IMAGE_PATH;
@@ -40,7 +41,21 @@ int main()
     ReadDataset::read_mnist_labels(test_labels_path, test_labels);
 
     vector<float> result;
-    NeuralNetwork nn(IMAGE_SIZE, HIDDEN_LAYER1_SIZE,  HIDDEN_LAYER2_SIZE, LABEL_SIZE);
+
+	NeuralNetwork nn(IMAGE_SIZE, { HIDDEN_LAYER1_SIZE, HIDDEN_LAYER2_SIZE }, LABEL_SIZE);
+    /*
+    NeuralNetwork nn(2, { 3, 4 }, 2);
+    
+    //print weights and biases of the first layer
+	vector<shared_ptr<Layer>> layers = nn.getLayer();
+    vector<Node> nodes = layers.back()->getNodes();
+
+	vector<float> weights = nodes[0].getWeight();
+	for (int i = 0; i < weights.size(); ++i)
+	{
+		cout << "Weight " << i << ": " << weights.at(i) << endl;
+	}
+    */
 
     //TEST FUNCTION 
     result = nn.forward(train_images[0]);
@@ -53,6 +68,5 @@ int main()
     }
     cout << endl;
 
-	cout << nn.calculateCost(result, train_labels[0]) << endl;
     return 0;
 }
