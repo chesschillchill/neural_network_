@@ -42,38 +42,6 @@ int main()
 
 	NeuralNetwork nn(IMAGE_SIZE, { HIDDEN_LAYER1_SIZE, HIDDEN_LAYER2_SIZE }, LABEL_SIZE);
 	nn.training(train_images, train_labels, test_images, test_labels, NUM_EPOCH, LEARNING_RATE);
-    /*
-    NeuralNetwork nn(2, { 3, 4 }, 2);
-    
-    //print weights and biases of the first layer
-	vector<shared_ptr<Layer>> layers = nn.getLayer();
-    vector<Node> nodes = layers.back()->getNodes();
-
-	vector<float> weights = nodes[0].getWeight();
-	for (int i = 0; i < weights.size(); ++i)
-	{
-		cout << "Weight " << i << ": " << weights.at(i) << endl;
-	}
-    */
-
-    //TEST FUNCTION 
- //   nn.forward(train_images[0]);
- //   // For demonstration, we will just print the first result
-	//vector<shared_ptr<Layer>> layers = nn.getLayer();
-	//vector<float> output = layers.back()->getAllA();
-	//for (const auto& value : output)
-	//{
-	//	cout << value << " ";
-	//}
- //   cout << endl;
-	//// print the first 10 training images and labels
-    /*for (size_t i = 0; i < train_images[0].size(); ++i)
-    {
-        cout << train_images[0][i] << " ";
-        if ((i + 1) % 28 == 0) 
-            cout << endl;
-    }*/
-
 
     return 0;
 }

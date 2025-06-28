@@ -44,18 +44,6 @@ public:
         }
 
         bias = dis(gen);
-
-		// My neurals exploding so I change the initialization method to He initialization.
-		// He initialization
-		//weights.resize(num_weights);
-		//std::random_device rd;
-		//std::mt19937 gen(rd());
-		//std::normal_distribution<float> dis(0.0f, sqrt(2.0f / num_weights)); 
-		//for (int i = 0; i < num_weights; ++i)
-		//{
-		//	weights[i] = dis(gen);
-		//}
-		//bias = dis(gen); // Initialize bias with the same distribution
     }
 
     void setWeight(int index, float value)
