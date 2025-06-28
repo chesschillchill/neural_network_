@@ -15,15 +15,22 @@ vector<float> Layer::backward(const vector<float>& dA, const vector<float>& pre_
 		dZ[i] = dA[i] * ActivationFunction::sigmoidDerivative(nodes[i].getZ());
 	}
 
-	vector<float> dWeights;
 	for (size_t i = 0; i < nodes.size(); ++i) {
+		vector<float> dWeights;
 		for (size_t j = 0; j < pre_layer.size(); ++j) {
 			dWeights.push_back(dZ[i] * pre_layer[j]);
 		}
 		nodes[i].updateParameters(dWeights, dZ[i], learning_rate);
 	}
 
-	return dWeights;
+	vector<float> dA_prev(pre_layer.size(), 0.0f);
+	for (size_t i = 0; i < nodes.size(); ++i) {
+		for (size_t j = 0; j < pre_layer.size(); ++j) {
+			dA_prev[j] += dZ[i] * nodes[i].getWeight()[j];
+		}
+	}
+
+	return dA_prev;
 }
 
 // OUTPUT LAYER
@@ -51,13 +58,20 @@ vector<float> OutputLayer::backward(const vector<float>& dA, const vector<float>
 		dZ[i] = dA[i] * output[i];
 	}
 
-	vector<float> dWeights;
 	for (size_t i = 0; i < nodes.size(); ++i) {
+		vector<float> dWeights;
 		for (size_t j = 0; j < pre_layer.size(); ++j) {
 			dWeights.push_back(dZ[i] * pre_layer[j]);
 		}
 		nodes[i].updateParameters(dWeights, dZ[i], learning_rate);
 	}
 	
-	return dWeights;
+	vector<float> dA_prev(pre_layer.size(), 0.0f);
+	for (size_t i = 0; i < nodes.size(); ++i) {
+		for (size_t j = 0; j < pre_layer.size(); ++j) {
+			dA_prev[j] += dZ[i] * nodes[i].getWeight()[j];
+		}
+	}
+
+	return dA_prev;
 }

@@ -11,7 +11,7 @@ void Node::forward(const vector<float>& inputs)
         std::cout << "Error: Number of inputs does not match number of weights." << std::endl;
         return;
     }
-
+    z = 0.0f;
     for (size_t i = 0; i < inputs.size(); ++i)
     {
         z += inputs[i] * weights[i];
@@ -21,6 +21,11 @@ void Node::forward(const vector<float>& inputs)
 }
 void Node::updateParameters(vector<float>& dWeights, float dBias, float learning_rate)
 {
+    if (dWeights.size() != weights.size()) {
+        std::cout << "Error: dWeights size mismatch!" << std::endl;
+        return;
+    }
+
     for (size_t i = 0; i < weights.size(); ++i)
     {
         weights[i] -= learning_rate * dWeights[i];
