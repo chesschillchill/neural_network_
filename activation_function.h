@@ -49,21 +49,4 @@ public:
         }
         return output;
     }
-
-	// Softmax derivative
-	// GPT generated
-	static vector<float> softmaxDerivative(const vector<float>& input)
-	{
-		vector<float> output(input.size());
-		float sum = 0.0f;
-		for (const auto& value : input)
-		{
-			sum += exp(value);
-		}
-		for (int i = 0; i < input.size(); ++i)
-		{
-			output[i] = exp(input[i]) / sum * (1 - exp(input[i]) / sum);
-		}
-		return output;
-	}
 };
