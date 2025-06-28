@@ -1,6 +1,6 @@
 # Neural Network from Scratch
 A simple feedforward neural network implementation in C++ for Fashion-MNIST classification.
-I need to remake everything. It took a whole year to training an epoch.
+I need to remake everything. It took an entire year to train one epoch.
 
 ## Features
 - **Multilayer Perceptron**: Configurable hidden layers
