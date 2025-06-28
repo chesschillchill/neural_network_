@@ -49,14 +49,7 @@ void OutputLayer::forward(const vector<float>& inputs) {
 }
 
 vector<float> OutputLayer::backward(const vector<float>& dA, const vector<float>& pre_layer, float learning_rate) {
-	vector<float> dZ;
-	dZ.resize(nodes.size(), 0.0f);
-	
-	vector<float> output = getAllZ();
-	output = ActivationFunction::softmaxDerivative(output);
-	for (size_t i = 0; i < nodes.size(); ++i) {
-		dZ[i] = dA[i] * output[i];
-	}
+	vector<float> dZ = dA;
 
 	for (size_t i = 0; i < nodes.size(); ++i) {
 		vector<float> dWeights;
