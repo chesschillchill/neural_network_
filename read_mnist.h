@@ -1,4 +1,4 @@
-/*
+﻿/*
 Chat GPT generated.
 I don't understand the architecture of the MNIST dataset.
 */
@@ -58,16 +58,14 @@ void ReadDataset::read_mnist_images(const string &file_path, vector<vector<float
         n_cols = reverseInt(n_cols);
 
         images.resize(number_of_images, vector<float>(n_rows * n_cols));
-
         for (int i = 0; i < number_of_images; ++i)
         {
-            file.read((char *)images[i].data(), n_rows * n_cols);
-            // Normalize pixel values to [0, 1]
-            for (auto &pixel : images[i])
-            {
-                pixel /= 255.0f;
-            }
+            vector<unsigned char> buffer(n_rows * n_cols);
+            file.read((char*)buffer.data(), n_rows * n_cols);
+            for (int j = 0; j < n_rows * n_cols; ++j)
+                images[i][j] = static_cast<float>(buffer[j])/255.0f;
         }
+
     }
     else
     {

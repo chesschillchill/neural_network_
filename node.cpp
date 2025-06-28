@@ -1,23 +1,29 @@
 #include "node.h"
 
-float Node::calculateValue(const vector<float> &inputs)
+void Node::forward(const vector<float>& inputs)
 {
     /*
     node_ value = X * W + b
     */
-    float value = 0.0f;
 
     if (inputs.size() != weights.size())
     {
         std::cout << "Error: Number of inputs does not match number of weights." << std::endl;
+        return;
     }
 
     for (size_t i = 0; i < inputs.size(); ++i)
     {
-        value += inputs[i] * weights[i];
+        z += inputs[i] * weights[i];
     }
 
-    value += bias;
-
-    return value;
+    z += bias;
+}
+void Node::updateParameters(vector<float>& dWeights, float dBias, float learning_rate)
+{
+    for (size_t i = 0; i < weights.size(); ++i)
+    {
+        weights[i] -= learning_rate * dWeights[i];
+    }
+    bias -= learning_rate * dBias;
 }

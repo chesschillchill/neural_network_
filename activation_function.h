@@ -7,27 +7,30 @@ using namespace std;
 class ActivationFunction
 {
 public:
+	// Sigmoid activation
+	static float sigmoid(float input)
+	{
+		return 1.0f / (1.0f + exp(-input));
+	}
+
+	// Sigmoid derivative
+	static float sigmoidDerivative(float input)
+	{
+		float sig = sigmoid(input);
+		return sig * (1.0f - sig);
+	}
+
     // ReLU activation
-    static vector<float> relu(const vector<float> &input)
-    {
-        vector<float> output(input.size());
-        for (size_t i = 0; i < input.size(); ++i)
-        {
-            output[i] = max(0.0f, input[i]);
-        }
-        return output;
-    }
+	static float relu(float input)
+	{
+		return (input > 0) ? input : 0.0f;
+	}
 
     // ReLU derivative
-    static vector<float> reluDerivative(const vector<float> &input)
-    {
-        vector<float> output(input.size());
-        for (size_t i = 0; i < input.size(); ++i)
-        {
-            output[i] = (input[i] > 0) ? 1.0f : 0.0f;
-        }
-        return output;
-    }
+	static float reluDerivative(float input)
+	{
+		return (input > 0) ? 1.0f : 0.0f;
+	}
 
     // Softmax
     static vector<float> softmax(const vector<float> &input)

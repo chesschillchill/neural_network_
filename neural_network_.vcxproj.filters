@@ -44,5 +44,8 @@
     <ClInclude Include="read_mnist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="batch_norm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

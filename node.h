@@ -12,6 +12,12 @@ private:
 	// First hidden layer connects to input layer
     vector<float> weights;
     float bias;
+
+	// z = X * W + b
+	// a = activation(vec_z)
+    // softmax function required all nodes of layer
+	float z = 0.0f;
+	float a = 0.0f;
 public:
     Node()
     {
@@ -31,13 +37,25 @@ public:
         weights.resize(num_weights);
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
+        std::uniform_real_distribution<float> dis(-0.5f, 0.5f);
         for (int i = 0; i < num_weights; ++i)
         {
             weights[i] = dis(gen);
         }
 
         bias = dis(gen);
+
+		// My neurals exploding so I change the initialization method to He initialization.
+		// He initialization
+		//weights.resize(num_weights);
+		//std::random_device rd;
+		//std::mt19937 gen(rd());
+		//std::normal_distribution<float> dis(0.0f, sqrt(2.0f / num_weights)); 
+		//for (int i = 0; i < num_weights; ++i)
+		//{
+		//	weights[i] = dis(gen);
+		//}
+		//bias = dis(gen); // Initialize bias with the same distribution
     }
 
     void setWeight(int index, float value)
@@ -63,7 +81,29 @@ public:
         return bias;
     }
 
+	float getZ() const
+	{
+		return z;
+	}
+
+	void setZ(float value)
+	{
+		z = value;
+	}
+
+	float getA() const
+	{
+		return a;
+	}
+
+	void setA(float value)
+	{
+		a = value;
+	}
+
     ~Node() = default;
 
-    float calculateValue(const vector<float> &inputs);
+    void forward(const vector<float> &inputs);
+
+    void updateParameters(vector<float>& dWeights, float dBias, float learning_rate);
 };

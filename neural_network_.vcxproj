@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="activation_function.h" />
+    <ClInclude Include="batch_norm.h" />
     <ClInclude Include="layer.h" />
     <ClInclude Include="neural_network.h" />
     <ClInclude Include="node.h" />

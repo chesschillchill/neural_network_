@@ -21,7 +21,7 @@ Neural Network Configuration:
 #define TRAIN_SIZE 60000 // Number of training images
 #define TEST_SIZE 10000  // Number of test images
 
-#define LEARNING_RATE 0.05f
+#define LEARNING_RATE 0.1f
 #define NUM_EPOCH 5
 int main()
 {
@@ -40,9 +40,8 @@ int main()
     ReadDataset::read_mnist_images(test_images_path, test_images);
     ReadDataset::read_mnist_labels(test_labels_path, test_labels);
 
-    vector<float> result;
-
 	NeuralNetwork nn(IMAGE_SIZE, { HIDDEN_LAYER1_SIZE, HIDDEN_LAYER2_SIZE }, LABEL_SIZE);
+	nn.training(train_images, train_labels, test_images, test_labels, NUM_EPOCH, LEARNING_RATE);
     /*
     NeuralNetwork nn(2, { 3, 4 }, 2);
     
@@ -58,15 +57,23 @@ int main()
     */
 
     //TEST FUNCTION 
-    result = nn.forward(train_images[0]);
-
-    // For demonstration, we will just print the first result
-    cout << "First forward result: ";
-    for (const auto &value : result)
+ //   nn.forward(train_images[0]);
+ //   // For demonstration, we will just print the first result
+	//vector<shared_ptr<Layer>> layers = nn.getLayer();
+	//vector<float> output = layers.back()->getAllA();
+	//for (const auto& value : output)
+	//{
+	//	cout << value << " ";
+	//}
+ //   cout << endl;
+	//// print the first 10 training images and labels
+    /*for (size_t i = 0; i < train_images[0].size(); ++i)
     {
-        cout << value << " ";
-    }
-    cout << endl;
+        cout << train_images[0][i] << " ";
+        if ((i + 1) % 28 == 0) 
+            cout << endl;
+    }*/
+
 
     return 0;
 }

@@ -17,45 +17,30 @@ public:
 
     virtual ~Layer() = default;
 
-    void setNodeWeight(int node_index, int weight_index, float value) {
-        if (node_index >= 0 && node_index < nodes.size()) {
-            nodes[node_index].setWeight(weight_index, value);
-        }
-    }
-
-    void setNodeBias(int node_index, float value) {
-        if (node_index >= 0 && node_index < nodes.size()) {
-            nodes[node_index].setBias(value);
-        }
-    }
-
-    float getNodeBias(int node_index) const {
-        if (node_index >= 0 && node_index < nodes.size()) {
-            return nodes[node_index].getBias();
-        }
-        return 0.0f;
-    }
-
-    virtual const vector<Node>& getNodes() const {
+    const vector<Node>& getNodes() {
         return nodes;
     }
 
+    vector<float> getAllZ() {
+		vector<float> vec;
+		for (const auto& node : nodes) {
+			vec.push_back(node.getZ());
+		}
+		return vec;
+    }
+
+	vector<float> getAllA() {
+		vector<float> vec;
+		for (const auto& node : nodes) {
+			vec.push_back(node.getA());
+		}
+		return vec;
+	}
+
     // Polymorphic interface
-    virtual vector<float> calculateValues(const vector<float>& inputs) {
-        vector<float> values(nodes.size());
-        for (size_t i = 0; i < nodes.size(); ++i) {
-            values[i] = nodes[i].calculateValue(inputs);
-        }
-        return activationLayer(values);
-    }
-
-    virtual vector<float> activationLayer(const vector<float>& values) {
-		return ActivationFunction::relu(values);
-    }
-
-    virtual vector<float> derActivationLayer(const vector<float>& values) {
-        return ActivationFunction::reluDerivative(values);
-    }
+    virtual void forward(const vector<float>& inputs);
+    
+    virtual vector<float> backward(const vector<float>& dA, const vector<float>& pre_layer, float learning_rate);
 };
 
 class OutputLayer : public Layer {
@@ -65,19 +50,7 @@ public:
     virtual ~OutputLayer() = default;
 
     // Override to apply softmax activation
-    vector<float> calculateValues(const vector<float>& inputs) override {
-        vector<float> values(nodes.size());
-        for (size_t i = 0; i < nodes.size(); ++i) {
-            values[i] = nodes[i].calculateValue(inputs);
-        }
-        return activationLayer(values);
-    }
+    void forward(const vector<float>& inputs) override;
 
-    vector<float> activationLayer(const vector<float>& values) override {
-        return ActivationFunction::softmax(values);
-    }
-
-    vector<float> derActivationLayer(const vector<float>& values) override {
-        return ActivationFunction::softmaxDerivative(values);
-    }
+	vector<float> backward(const vector<float>& dA, const vector<float>& pre_layer, float learning_rate) override;
 };
