@@ -10,7 +10,7 @@ using namespace std;
 class NeuralNetwork
 {
 private:
-    vector<shared_ptr<Layer>> layers; // Contain hidden layers and output layer
+    vector<unique_ptr<Layer>> layers; // Contain hidden layers and output layer
 public:
     NeuralNetwork()
     {
@@ -19,17 +19,17 @@ public:
     NeuralNetwork(int image_size, vector<int> list_hidden_layers_node, int label_size)
     {
         list_hidden_layers_node.insert(list_hidden_layers_node.begin(), image_size); // Add input layer size at the beginning
-        list_hidden_layers_node.push_back(label_size); // Add output layer size at the end
+        list_hidden_layers_node.push_back(label_size);                               // Add output layer size at the end
         // Example for list_hidden_layers_node: {784, 128, 128, 10}
 
         // Start from index 1, the first hidden layer, which connects to the input layer
-        // End 
+        // End
 
         // print list_hidden_layers_node
         for (int i = 1; i < list_hidden_layers_node.size() - 1; ++i)
         {
             Layer tempLayer = Layer(list_hidden_layers_node[i], list_hidden_layers_node[i - 1]);
-	        layers.push_back(make_shared<Layer>(tempLayer));
+            layers.push_back(make_unique<Layer>(tempLayer));
         }
 
         size_t size = list_hidden_layers_node.size();
@@ -40,25 +40,20 @@ public:
 
     ~NeuralNetwork() = default;
 
-    vector<shared_ptr<Layer>> getLayer()
-	{
-        return layers;
-	}
-
     void forward(const vector<float> &train_image);
 
     /*
-	Make a true label vector for the neural network.
-	For example, if the label is 3, the vector will be:
-	[0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+    Make a true label vector for the neural network.
+    For example, if the label is 3, the vector will be:
+    [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
     */
     vector<unsigned char> createTrueLabelVector(unsigned char label);
 
-    void backward(const vector<float>& train_image, const vector<float> &predict_label, const vector<unsigned char> &true_label, float learning_rate);
+    void backward(const vector<float> &train_image, const vector<float> &predict_label, const vector<unsigned char> &true_label, float learning_rate);
 
-    bool getAccuracy(const vector<float>& predict_label, unsigned char true_label);
+    bool getAccuracy(const vector<float> &predict_label, unsigned char true_label);
 
-    void training(const vector<vector<float>>& train_images,
-        const vector<unsigned char>& train_labels, const vector<vector<float>>& test_images,
-        const vector<unsigned char>& test_labels, int num_epoch, float learning_rate);
+    void training(const vector<vector<float>> &train_images,
+                  const vector<unsigned char> &train_labels, const vector<vector<float>> &test_images,
+                  const vector<unsigned char> &test_labels, int num_epoch, float learning_rate);
 };
